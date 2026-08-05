@@ -45,6 +45,31 @@ sales_df["sales_amount"] = (
 )
 
 
+#Create a unique ID for every row in the fact table
+sales_df.insert(
+    0,
+    "sales_id",
+    range(1, len(sales_df) + 1)
+)
+
+# Creating the final table with the required columns only
+fact_sales = sales_df[
+    [
+    "sales_id",
+    "InvoiceNo",
+    "customer_id",
+    "product_id",
+    "date_id",
+    "Quantity",
+    "UnitPrice",
+    "sales_amount"
+    ]
+]
+
+fact_sales.to_csv("data/fact_sales.csv", index=False)
+print("Fact sales created")
+
+
 print(sales_df.head())
 print(sales_df.columns)
 

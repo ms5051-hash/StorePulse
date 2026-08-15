@@ -72,5 +72,3 @@ print("Fact sales created")
 
 print(sales_df.head())
 print(sales_df.columns)
-
-

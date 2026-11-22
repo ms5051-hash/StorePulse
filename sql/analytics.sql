@@ -1,12 +1,12 @@
 -- Top 10 Products by Revenue
 SELECT
-    product_id,
-    p."Decscription",
+    p.product_id,
+    p."Description",
     ROUND(SUM(sales_amount)::numeric, 2) AS total_revenue
 FROM fact_sales f
-JOIN dim_products p
+JOIN dim_product p
     ON f.product_id = p.product_id  
-GROUP BY product_id, p."Decscription"
+GROUP BY p.product_id, p."Description"
 ORDER BY total_revenue DESC
 LIMIT 10;
 
@@ -55,7 +55,7 @@ SELECT
     COUNT(*) AS total_transactions,
     SUM("Quantity") AS total_units_sold,
     ROUND(SUM(sales_amount)::numeric, 2) AS total_revenue,
-    ROUND(AVG(sales_amount)::numeric, 2) AS average_sales,
+    ROUND(AVG(sales_amount)::numeric, 2) AS average_sales
 FROM fact_sales f;
 
 

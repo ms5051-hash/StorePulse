@@ -1,9 +1,12 @@
 -- Top 10 Products by Revenue
 SELECT
     product_id,
+    p."Decscription",
     ROUND(SUM(sales_amount)::numeric, 2) AS total_revenue
-FROM fact_sales
-GROUP BY product_id
+FROM fact_sales f
+JOIN dim_products p
+    ON f.product_id = p.product_id  
+GROUP BY product_id, p."Decscription"
 ORDER BY total_revenue DESC
 LIMIT 10;
 
@@ -11,7 +14,7 @@ LIMIT 10;
 
 SELECT
     customer_id,
-    SUM(sales_amount) AS total_revenue
+    ROUND(SUM(sales_amount)::numeric, 2) AS total_revenue
 FROM fact_sales
 GROUP BY customer_id
 ORDER BY total_revenue DESC
@@ -31,7 +34,7 @@ ORDER BY monthly_revenue DESC;
 -- 4 Top 10 Products by Units Sold
 SELECT 
     product_id,
-    SUM(quantity) AS total_units_sold
+    SUM("Quantity") AS total_units_sold
 FROM fact_sales
 GROUP BY product_id
 ORDER BY total_units_sold DESC
@@ -42,12 +45,18 @@ SELECT
     c.country,
     ROUND(SUM(f.sales_amount)::numeric, 2) AS total_revenue
 FROM fact_sales f
-JOIN dim_customers c
+JOIN dim_customer c
     ON f.customer_id = c.customer_id
 GROUP BY c.country
 ORDER BY total_revenue DESC;
 
 --  6 Overall Sales Performance
+SELECT 
+    COUNT(*) AS total_transactions,
+    SUM("Quantity") AS total_units_sold,
+    ROUND(SUM(sales_amount)::numeric, 2) AS total_revenue,
+    ROUND(AVG(sales_amount)::numeric, 2) AS average_sales,
+FROM fact_sales f;
 
 
 -- 7 Top 10 Highest Spending Customers

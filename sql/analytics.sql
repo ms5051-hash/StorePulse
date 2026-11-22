@@ -60,10 +60,47 @@ FROM fact_sales f;
 
 
 -- 7 Top 10 Highest Spending Customers
+SELECT 
+    f.customer_id,
+    SUM(f.sales_amount) AS revenue
+
+FROM fact_sales f
+GROUP BY f.customer_id
+ORDER BY revenue DESC
+LIMIT 10;
 
 -- 8 Average Product Selling Price
+SELECT 
+    f.product_id,
+    ROUND(AVG(f.UnitPrice)::numeric, 2) AS average_price
+FROM fact_sales f
+GROUP BY f.product_id
+ORDER BY average_price DESC
+LIMIT 10;
+
 
 -- 9 Sales By Hour 
+SELECT
+    d.hour,
+    COUNT(*) AS total_sales,
+    SUM(f.sales_amount) AS total_revenue
+FROM fact_sales f
+JOIN dim_date d
+    ON f.date_id = d.date_id
+GROUP BY d.hour
+ORDER BY total_revenue DESC;
 
 -- 10 Annual Revenue Analysis
+SELECT 
+    d.year,
+    SUM(f.sales_amount) AS total_revenue
+FROM fact_sales f
+JOIN dim_date d
+    ON f.date_id = d.date_id
+GROUP BY d.year
+ORDER BY total_revenue DESC;
+
+
+
+
 
